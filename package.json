@@ -9,6 +9,7 @@
     {"name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"}
   ],
   "dependencies": {
+    "htmlparser2": "3.9.0"
   },
   "devDependencies": {
     "expect.js": "0.3.1",
