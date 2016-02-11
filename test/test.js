@@ -36,7 +36,7 @@ describe("htmlToJs simple tests", function(){
             'html._text("simple & short")\n'
         )
     });
-    it.skip("must generate js source code from comment nodes", function(){
+    it("must generate js source code from comment nodes", function(){
         var sourceCode=htmlToJs.toJsSourceCode("<!-- the comment -->");
         expect(sourceCode).to.eql(
             'html._comment(" the comment ")\n'
