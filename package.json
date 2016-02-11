@@ -9,7 +9,9 @@
     {"name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"}
   ],
   "dependencies": {
-    "htmlparser2": "3.9.0"
+    "htmlparser2": "3.9.0",
+    
+    "js-to-html": "0.7.0"
   },
   "devDependencies": {
     "expect.js": "0.3.1",
@@ -18,8 +20,7 @@
     "istanbul": "0.4.2",
     "mocha": "2.3.4",
 
-    "best-promise": "0.2.4",
-    "js-to-html": "0.7.0"
+    "best-promise": "0.2.4"
   },
   "engines": {
     "node": ">= 0.10.0"
