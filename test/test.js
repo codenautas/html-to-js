@@ -59,7 +59,7 @@ describe("htmlToJs from fixtures", function(){
                 //console.log("cdo", cdo)
                 var sc=htmlToJs.toJsSourceCode(cdo);
                 //console.log("sc", sc)
-                expect(sc).to.eql(js+'\n');
+                expect(sc).to.eql(js);
             }).then(done,done);
         });
     });
