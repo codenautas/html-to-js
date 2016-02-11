@@ -46,14 +46,20 @@ describe("htmlToJs simple tests", function(){
 
 describe("htmlToJs from fixtures", function(){
     ['fixture1.js','fixture2.js'].forEach(function(fileName){
-        it.skip("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
+        if(fileName == 'fixture2.js') {
+            console.log("Skipping ", fileName);
+            return;
+        }
+        it("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
             fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'}).then(function(js){
                 var htmlText = eval(js+".toHtmlText()");
                 //var htmlText = eval(js);
-                console.log(htmlText);
+                //console.log("htmlText", htmlText);
                 var cdo=htmlToJs.parse(htmlText);
+                //console.log("cdo", cdo)
                 var sc=htmlToJs.toJsSourceCode(cdo);
-                expect(sc).to.eql(js);
+                //console.log("sc", sc)
+                expect(sc).to.eql(js+'\n');
             }).then(done,done);
         });
     });
