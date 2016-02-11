@@ -47,7 +47,7 @@ describe("htmlToJs simple tests", function(){
 describe("htmlToJs from fixtures", function(){
     ['fixture1.js','fixture2.js'].forEach(function(fileName){
         if(fileName == 'fixture2.js') {
-            console.log("Skipping ", fileName);
+            console.log("Skipping ------------------------> ", fileName);
             return;
         }
         it("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
@@ -62,5 +62,12 @@ describe("htmlToJs from fixtures", function(){
                 expect(sc).to.eql(js+'\n');
             }).then(done,done);
         });
+    });
+});
+
+describe("jsToHtml instance check", function(){
+    it.skip("must generate js source code from comment nodes", function(){
+        var tag = jsToHtml.direct({textNode:'El texto'});
+        expect(tag instanceof jsToHtml.Html).to.eql(true);
     });
 });
