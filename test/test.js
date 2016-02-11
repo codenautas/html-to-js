@@ -6,7 +6,7 @@ var jsToHtml = require("js-to-html");
 var html = jsToHtml.html;
 var direct = jsToHtml.direct;
 describe("htmlToJs simple tests", function(){
-    it/*.skip*/("must parse any html and generate the same kind of object that generates 'direct' and 'html.TAGNAME'", function(){
+    it("must parse any html and generate the same kind of object that generates 'direct' and 'html.TAGNAME'", function(){
         var cdo=htmlToJs.parse('<div id=id1 class=class2>Hello <B>World!</B></div>');
         expect(cdo).to.eql(direct({tagName:'div', attributes:{id:'id1', "class": 'class2'}, content:[
             direct({textNode:'Hello '}), direct({tagName:'b', attributes:{}, content:[direct({textNode:'World!'})]})
@@ -15,7 +15,7 @@ describe("htmlToJs simple tests", function(){
             "Hello ", html.b("World!")
         ]));
     });
-    it.skip("must generate js source code", function(){
+    it("must generate js source code", function(){
         var sourceCode=htmlToJs.toJsSourceCode(html.div({id:'id1', "class": 'class2'}, [
             "Hello ", html.b("World!")
         ]));
@@ -26,7 +26,7 @@ describe("htmlToJs simple tests", function(){
         expect(sourceCode).to.eql(
             'html.div({id: "id1", "class": "class2"}, [\n'+
             '    "Hello ",\n'+
-            '    html.b("World!"),\n'+
+            '    html.b("World!")\n'+
             '])\n'
         )
     });
