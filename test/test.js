@@ -30,7 +30,7 @@ describe("htmlToJs simple tests", function(){
             '])\n'
         )
     });
-    it.skip("must generate js source code from text nodes", function(){
+    it("must generate js source code from text nodes", function(){
         var sourceCode=htmlToJs.toJsSourceCode("simple &amp; short");
         expect(sourceCode).to.eql(
             'html._text("simple & short")\n'
