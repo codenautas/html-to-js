@@ -1,1 +1,1 @@
-html._text("only one")
+html._comment("only one comment")

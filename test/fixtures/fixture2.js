@@ -30,7 +30,11 @@ html.html([
             html.label({id: "label-bool2-false", "for": "bool2-false"}, "No"),
         ]),
         html.input({id: "txtEmiter", type: "text"}),
-        html.pre({id: "messages"}),
+        html.pre({id: "messages"}, [
+            "one text",
+            html.div("one div"),
+            "more text",
+        ]),
         html.script({src:"lib3/best-globals.js"}),
         html.script({src:"lib2/js-to-html.js"}),
         html.script({src:"lib/tedede.js"}),

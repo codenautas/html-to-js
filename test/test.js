@@ -26,18 +26,24 @@ describe("htmlToJs simple tests", function(){
         expect(sourceCode).to.eql(
             'html.div({id: "id1", "class": "class2"}, [\n'+
             '    "Hello ",\n'+
-            '    html.b("World!")\n'+
+            '    html.b("World!"),\n'+
             '])\n'
         )
     });
     it("must generate js source code from text nodes", function(){
-        var sourceCode=htmlToJs.toJsSourceCode("simple &amp; short");
+        var sourceCode=htmlToJs.toJsSourceCode(htmlToJs.parse("simple &amp; short"));
         expect(sourceCode).to.eql(
-            'html._text("simple & short")\n'
+            '"simple & short"\n'
+        )
+    });
+    it("must generate js source code from text nodes", function(){
+        var sourceCode=htmlToJs.toJsSourceCode("simple & short");
+        expect(sourceCode).to.eql(
+            '"simple & short"\n'
         )
     });
     it("must generate js source code from comment nodes", function(){
-        var sourceCode=htmlToJs.toJsSourceCode("<!-- the comment -->");
+        var sourceCode=htmlToJs.toJsSourceCode(htmlToJs.parse("<!-- the comment -->"));
         expect(sourceCode).to.eql(
             'html._comment(" the comment ")\n'
         )
@@ -45,7 +51,7 @@ describe("htmlToJs simple tests", function(){
 });
 
 describe("htmlToJs from fixtures", function(){
-    ['fixture1.js','fixture2.js'].forEach(function(fileName){
+    ['fixture1.js','fixture1b.js','fixture2.js'].forEach(function(fileName){
         if(fileName == 'fixture2.js') {
             console.log("Skipping ------------------------> ", fileName);
             return;
@@ -54,9 +60,9 @@ describe("htmlToJs from fixtures", function(){
             fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'}).then(function(js){
                 var htmlText = eval(js+".toHtmlText()");
                 //var htmlText = eval(js);
-                //console.log("htmlText", htmlText);
+                // console.log("htmlText", htmlText);
                 var cdo=htmlToJs.parse(htmlText);
-                //console.log("cdo", cdo)
+                // console.log("cdo", cdo)
                 var sc=htmlToJs.toJsSourceCode(cdo);
                 //console.log("sc", sc)
                 expect(sc).to.eql(js);
@@ -66,8 +72,8 @@ describe("htmlToJs from fixtures", function(){
 });
 
 describe("jsToHtml instance check", function(){
-    it.skip("must generate js source code from comment nodes", function(){
+    it("must generate js source code from comment nodes", function(){
         var tag = jsToHtml.direct({textNode:'El texto'});
-        expect(tag instanceof jsToHtml.Html).to.eql(true);
+        expect(tag instanceof jsToHtml.HtmlTextNode).to.eql(true);
     });
 });
