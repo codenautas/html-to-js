@@ -8,17 +8,19 @@ var direct = jsToHtml.direct;
 describe("htmlToJs simple tests", function(){
     it("must parse any html and generate the same kind of object that generates 'direct' and 'html.TAGNAME'", function(){
         var cdo=htmlToJs.parse('<div id=id1 class=class2>Hello <B>World!</B></div>');
-        expect(cdo).to.eql(direct({tagName:'div', attributes:{id:'id1', "class": 'class2'}, content:[
+        expect(cdo).to.eql([direct({tagName:'div', attributes:{id:'id1', "class": 'class2'}, content:[
             direct({textNode:'Hello '}), direct({tagName:'b', attributes:{}, content:[direct({textNode:'World!'})]})
-        ]}));
-        expect(cdo).to.eql(html.div({id:'id1', "class": 'class2'}, [
-            "Hello ", html.b("World!")
-        ]));
+        ]})]);
+        expect(cdo).to.eql([
+            html.div({id:'id1', "class": 'class2'}, [
+                "Hello ", html.b("World!")
+            ])
+        ]);
     });
     it("must generate js source code", function(){
-        var sourceCode=htmlToJs.toJsSourceCode(html.div({id:'id1', "class": 'class2'}, [
+        var sourceCode=htmlToJs.toJsSourceCode([html.div({id:'id1', "class": 'class2'}, [
             "Hello ", html.b("World!")
-        ]));
+        ])]);
         // must ident with 4 spaces
         // id and class must be the first attributes, others must be alfabethical
         // the attributes are in the same line because are 3 or less
@@ -27,25 +29,25 @@ describe("htmlToJs simple tests", function(){
             'html.div({id: "id1", "class": "class2"}, [\n'+
             '    "Hello ",\n'+
             '    html.b("World!"),\n'+
-            '])\n'
+            ']),\n'
         )
     });
     it("must generate js source code from text nodes", function(){
         var sourceCode=htmlToJs.toJsSourceCode(htmlToJs.parse("simple &amp; short"));
         expect(sourceCode).to.eql(
-            '"simple & short"\n'
+            '"simple & short",\n'
         )
     });
-    it("must generate js source code from text nodes", function(){
-        var sourceCode=htmlToJs.toJsSourceCode("simple & short");
+    it("must generate js source code from text nodes 2", function(){
+        var sourceCode=htmlToJs.toJsSourceCode(["simple & short"]);
         expect(sourceCode).to.eql(
-            '"simple & short"\n'
+            '"simple & short",\n'
         )
     });
     it("must generate js source code from comment nodes", function(){
         var sourceCode=htmlToJs.toJsSourceCode(htmlToJs.parse("<!-- the comment -->"));
         expect(sourceCode).to.eql(
-            'html._comment(" the comment ")\n'
+            'html._comment(" the comment "),\n'
         )
     });
 });
@@ -58,7 +60,7 @@ describe("htmlToJs from fixtures", function(){
         }
         it("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
             fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'}).then(function(js){
-                var htmlText = eval(js+".toHtmlText()");
+                var htmlText = eval("jsToHtml.arrayToHtmlText(["+js+"])");
                 //var htmlText = eval(js);
                 // console.log("htmlText", htmlText);
                 var cdo=htmlToJs.parse(htmlText);

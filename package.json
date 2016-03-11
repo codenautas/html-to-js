@@ -1,24 +1,28 @@
 {
   "name": "html-to-js",
   "description": "js-to-html reverse",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
   "repository": "codenautas/html-to-js",
   "contributors": [
     {"name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"}
   ],
+  "bin": {
+    "html-to-js": "./bin/html-to-js-run.js"
+  },
   "dependencies": {
     "htmlparser2": "3.9.0",
     
-    "js-to-html": "0.7.0"
+    "js-to-html": "0.9.0"
   },
   "devDependencies": {
+    "commander": "2.9.0",
     "expect.js": "0.3.1",
-    "fs-extra": "0.26.4",
-    "fs-promise": "0.3.1",
+    "fs-extra": "0.26.5",
+    "fs-promise": "0.5.0",
     "istanbul": "0.4.2",
-    "mocha": "2.3.4",
+    "mocha": "2.4.5",
 
     "best-promise": "0.2.4"
   },

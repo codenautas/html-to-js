@@ -40,4 +40,4 @@ html.html([
         html.script({src:"lib/tedede.js"}),
         html.script({src:"pdemo-client.js"}),
     ]),
-])
+]),
