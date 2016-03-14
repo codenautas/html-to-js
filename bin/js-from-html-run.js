@@ -3,7 +3,7 @@
 "use strict";
 
 var program = require('commander');
-var htmlToJs = require('../lib/html-to-js');
+var jsFromHtml = require('../lib/js-from-html');
 var Promises = require('best-promise');
 var fs = require('fs-promise');
 var path = require('path');
@@ -47,10 +47,10 @@ Promises.start(function(){
     return fs.readFile(params.input, {encoding: 'utf8'});
 }).then(function(htmlText){
     if(params.verbose) console.log("parsing HTML");
-    return htmlToJs.parse(htmlText);
+    return jsFromHtml.parse(htmlText);
 }).then(function(htmlObject){
     if(params.verbose) console.log("creating JS");
-    return htmlToJs.toJsSourceCode(htmlObject);
+    return jsFromHtml.toJsSourceCode(htmlObject);
 }).then(function(jsCode){
     if(params.verbose) console.log("ensuring output does'n exists");
     return fs.stat(params.output).then(function(){

@@ -1,16 +1,19 @@
 {
-  "name": "html-to-js",
+  "name": "js-from-html",
   "description": "js-to-html reverse",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "author": "Codenautas <codenautas@googlegroups.com>",
   "license": "MIT",
-  "repository": "codenautas/html-to-js",
+  "repository": "codenautas/js-from-html",
   "contributors": [
     {"name": "Emilio Platzer", "email": "emilioplatzer@gmail.com"}
   ],
   "bin": {
-    "html-to-js": "./bin/html-to-js-run.js"
+    "js-from-html": "./bin/js-from-html-run.js"
   },
+  "main": 
+    "./lib/js-from-html.js"
+  ,
   "dependencies": {
     "htmlparser2": "3.9.0",
     
@@ -54,11 +57,11 @@
     "package-version": "0.1.4",
     "coverage": 90,
     "run-in": "both",
-    "stability": "extending",
+    "stability": "designing",
     "type": "lib"
   },
   "bugs": {
-    "url": "https://github.com/codenautas/html-to-js/issues"
+    "url": "https://github.com/codenautas/js-from-html/issues"
   },
-  "homepage": "https://github.com/codenautas/html-to-js#readme"
+  "homepage": "https://github.com/codenautas/js-from-html#readme"
 }
