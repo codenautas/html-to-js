@@ -33,7 +33,7 @@ describe("jsFromHtml simple tests", function(){
             ']),\n'
         )
     });
-    it.skip("must generate js source code from text nodes", function(){
+    it("must generate js source code from text nodes", function(){
         var sourceCode=jsFromHtml.toJsSourceCode(jsFromHtml.parse("simple &amp; short"));
         expect(sourceCode).to.eql(
             '"simple & short",\n'
