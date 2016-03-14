@@ -18,7 +18,7 @@ describe("jsFromHtml simple tests", function(){
             ])
         ]);
     });
-    it.skip("must generate js source code", function(){
+    it("must generate js source code", function(){
         var sourceCode=jsFromHtml.toJsSourceCode([html.div({id:'id1', "class": 'class2'}, [
             "Hello ", html.b("World!")
         ])]);
