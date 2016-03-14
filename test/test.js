@@ -5,9 +5,10 @@ var jsFromHtml = require("../lib/js-from-html.js");
 var jsToHtml = require("js-to-html");
 var html = jsToHtml.html;
 var direct = jsToHtml.direct;
-describe.skip("jsFromHtml simple tests", function(){
+describe("jsFromHtml simple tests", function(){
     it("must parse any html and generate the same kind of object that generates 'direct' and 'html.TAGNAME'", function(){
-        var cdo=jsFromHtml.parse('<div id=id1 class=class2>Hello <B>World!</B></div>');
+         var cdo=jsFromHtml.parse('<div id=id1 class=class2>Hello <B>World!</B></div>');
+        //console.log("cdo", cdo);
         expect(cdo).to.eql([direct({tagName:'div', attributes:{id:'id1', "class": 'class2'}, content:[
             direct({textNode:'Hello '}), direct({tagName:'b', attributes:{}, content:[direct({textNode:'World!'})]})
         ]})]);
@@ -17,7 +18,7 @@ describe.skip("jsFromHtml simple tests", function(){
             ])
         ]);
     });
-    it("must generate js source code", function(){
+    it.skip("must generate js source code", function(){
         var sourceCode=jsFromHtml.toJsSourceCode([html.div({id:'id1', "class": 'class2'}, [
             "Hello ", html.b("World!")
         ])]);
@@ -32,19 +33,19 @@ describe.skip("jsFromHtml simple tests", function(){
             ']),\n'
         )
     });
-    it("must generate js source code from text nodes", function(){
+    it.skip("must generate js source code from text nodes", function(){
         var sourceCode=jsFromHtml.toJsSourceCode(jsFromHtml.parse("simple &amp; short"));
         expect(sourceCode).to.eql(
             '"simple & short",\n'
         )
     });
-    it("must generate js source code from text nodes 2", function(){
+    it.skip("must generate js source code from text nodes 2", function(){
         var sourceCode=jsFromHtml.toJsSourceCode(["simple & short"]);
         expect(sourceCode).to.eql(
             '"simple & short",\n'
         )
     });
-    it("must generate js source code from comment nodes", function(){
+    it.skip("must generate js source code from comment nodes", function(){
         var sourceCode=jsFromHtml.toJsSourceCode(jsFromHtml.parse("<!-- the comment -->"));
         expect(sourceCode).to.eql(
             'html._comment(" the comment "),\n'
