@@ -54,16 +54,23 @@ describe("jsFromHtml simple tests", function(){
     });
 });
 
+function getE(elem) {
+    return '['+(elem.name ? elem.name : '?')+']'+(elem.type ?" type:"+elem.type:"")+(elem.data ? " data:"+elem.data : '')
+               +(elem.attribs && elem.attribs.id?" id:"+elem.attribs.id:"")
+               +(elem.attribs && elem.attribs.src?" src:"+elem.attribs.src:"")
+               +(elem.attribs && elem.attribs.href?" href:"+elem.attribs.href:"")
+               +(elem.prev?" prev:"+(elem.prev.name ? elem.prev.name : elem.prev.data):"")
+               +(elem.next?" next:"+(elem.next.name ? elem.next.name : elem.next.data):"")
+               +(elem.parent?" [parent:"+(elem.parent.name ? elem.parent.name : elem.parent.data)+']':"")
+               +(elem.children && elem.children.length?"":" [NIETO]");
+}
+
 var space = '   ';
 var ctr = 0;
 function prnDE(elem, pad) {
     ++ctr;
     //console.log("prnDE:",elem);
-    console.log(ctr, pad+'['+(elem.name ? elem.name : '?')+']'+(elem.type ?" type:"+elem.type:"")+(elem.data ? " data:"+elem.data : '')
-               +(elem.parent?" parent:"+(elem.parent.name ? elem.parent.name : elem.parent.data):"")
-               +(elem.prev?" prev:"+(elem.prev.name ? elem.prev.name : elem.prev.data):"")
-               +(elem.next?" next:"+(elem.next.name ? elem.next.name : elem.next.data):"")
-               +(elem.children && elem.children.length?" children":""));
+    console.log(ctr, pad+getE(elem));
     if(elem.attribs) {
         for(var a in elem.attribs) {
             console.log(pad+space+space+"attrib:"+a+"='"+elem.attribs[a]+'"');
@@ -77,7 +84,7 @@ function prnDE(elem, pad) {
             console.log(pad+space+"child", i, "of", elem.children.length, "from", elem.name ? elem.name : '?'/*, child.name ? child.name : child.type*/);
             pad += space;            
             prnDE(child, pad);
-            pad = pad.substring(0, pad.length-space.length)
+            pad = pad.substring(0, pad.length-space.length);
         }
     }
 }
@@ -94,25 +101,20 @@ describe("jsFromHtml from fixtures", function(){
             fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'}).then(function(js){
                 var arrayList = eval("["+js+"]");
                 var htmlText = jsToHtml.arrayToHtmlText(arrayList);
-                if(fileName==='fixture2.js') {
-                    console.log("Skipping "+fileName);
-                    var dom = require("htmlparser2").parseDOM(htmlText, {decodeEntities: true});
-                    //prnDOM(dom);
-                    return;
-                }
                 //var htmlText = eval(js);
                 //console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
-                if(fileName==='fixture2.js') {
-                    console.dir(cdo, {depth:1});
-                    console.dir(arrayList, {depth:1});
-                }
+                // if(fileName==='fixture2.js') {
+                    // console.dir(cdo, {depth:1});
+                    // console.dir(arrayList, {depth:1});
+                // }
                 expect(cdo).to.eql(arrayList);
+                var sc=jsFromHtml.toJsSourceCode(cdo);
                 if(fileName==='fixture2.js') {
                     console.log("Skipping "+fileName);
-                }else{
-                    var sc=jsFromHtml.toJsSourceCode(cdo);
-                    //console.log("filename", fileName); console.log("cdo", cdo); console.log("sc", sc); console.log("js", js);
+                    //console.log("jsFromHtml.toJsSourceCode"); console.log(sc);
+                    //console.log("expected"); console.log(js);
+                } else {
                     expect(sc).to.eql(js);
                 }
             }).then(done,done);
