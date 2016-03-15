@@ -54,23 +54,67 @@ describe("jsFromHtml simple tests", function(){
     });
 });
 
+var space = '   ';
+var ctr = 0;
+function prnDE(elem, pad) {
+    ++ctr;
+    //console.log("prnDE:",elem);
+    console.log(ctr, pad+'['+(elem.name ? elem.name : '?')+']'+(elem.type ?" type:"+elem.type:"")+(elem.data ? " data:"+elem.data : '')
+               +(elem.parent?" parent:"+(elem.parent.name ? elem.parent.name : elem.parent.data):"")
+               +(elem.prev?" prev:"+(elem.prev.name ? elem.prev.name : elem.prev.data):"")
+               +(elem.next?" next:"+(elem.next.name ? elem.next.name : elem.next.data):"")
+               +(elem.children && elem.children.length?" children":""));
+    if(elem.attribs) {
+        for(var a in elem.attribs) {
+            console.log(pad+space+space+"attrib:"+a+"='"+elem.attribs[a]+'"');
+        }
+    }
+    if(elem.children) {
+        var i=0;
+        for(var c in elem.children) {
+            ++i;
+            var child = elem.children[c];
+            console.log(pad+space+"child", i, "of", elem.children.length, "from", elem.name ? elem.name : '?'/*, child.name ? child.name : child.type*/);
+            pad += space;            
+            prnDE(child, pad);
+            pad = pad.substring(0, pad.length-space.length)
+        }
+    }
+}
+
+function prnDOM(dom) {
+    ctr = 0;
+    for(var d=0; d<dom.length; ++d) { prnDE(dom[d], ''); }
+    console.log("# of tags:", ctr);
+}
+
 describe("jsFromHtml from fixtures", function(){
     ['fixture1.js','fixture1b.js','fixture2.js','fixture1c.js'].forEach(function(fileName){
         it("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
-            if(fileName==='fixture2.js') {
-                console.log("Skipping "+fileName);
-                done();
-                return;
-            }
             fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'}).then(function(js){
-                var htmlText = eval("jsToHtml.arrayToHtmlText(["+js+"])");
+                var arrayList = eval("["+js+"]");
+                var htmlText = jsToHtml.arrayToHtmlText(arrayList);
+                if(fileName==='fixture2.js') {
+                    console.log("Skipping "+fileName);
+                    var dom = require("htmlparser2").parseDOM(htmlText, {decodeEntities: true});
+                    //prnDOM(dom);
+                    return;
+                }
                 //var htmlText = eval(js);
-                // console.log("htmlText", htmlText);
+                //console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
-                
-                var sc=jsFromHtml.toJsSourceCode(cdo);
-                //console.log("filename", fileName); console.log("cdo", cdo); console.log("sc", sc); console.log("js", js);
-                expect(sc).to.eql(js);
+                if(fileName==='fixture2.js') {
+                    console.dir(cdo, {depth:1});
+                    console.dir(arrayList, {depth:1});
+                }
+                expect(cdo).to.eql(arrayList);
+                if(fileName==='fixture2.js') {
+                    console.log("Skipping "+fileName);
+                }else{
+                    var sc=jsFromHtml.toJsSourceCode(cdo);
+                    //console.log("filename", fileName); console.log("cdo", cdo); console.log("sc", sc); console.log("js", js);
+                    expect(sc).to.eql(js);
+                }
             }).then(done,done);
         });
     });
@@ -82,3 +126,4 @@ describe("jsToHtml instance check", function(){
         expect(tag instanceof jsToHtml.HtmlTextNode).to.eql(true);
     });
 });
+
