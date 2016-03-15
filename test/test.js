@@ -5,6 +5,7 @@ var jsFromHtml = require("../lib/js-from-html.js");
 var jsToHtml = require("js-to-html");
 var html = jsToHtml.html;
 var direct = jsToHtml.direct;
+
 describe("jsFromHtml simple tests", function(){
     it("must parse any html and generate the same kind of object that generates 'direct' and 'html.TAGNAME'", function(){
          var cdo=jsFromHtml.parse('<div id=id1 class=class2>Hello <B>World!</B></div>');
@@ -53,30 +54,29 @@ describe("jsFromHtml simple tests", function(){
     });
 });
 
-describe.skip("jsFromHtml from fixtures", function(){
-    ['fixture1.js','fixture1b.js','fixture2.js'].forEach(function(fileName){
-        if(fileName == 'fixture2.js') {
-            console.log("Skipping ------------------------> ", fileName);
-            return;
-        }
+describe("jsFromHtml from fixtures", function(){
+    ['fixture1.js','fixture1b.js','fixture2.js','fixture1c.js'].forEach(function(fileName){
         it("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
+            if(fileName==='fixture2.js') {
+                console.log("Skipping "+fileName);
+                done();
+                return;
+            }
             fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'}).then(function(js){
                 var htmlText = eval("jsToHtml.arrayToHtmlText(["+js+"])");
                 //var htmlText = eval(js);
                 // console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
-                // console.log("cdo", cdo)
+                
                 var sc=jsFromHtml.toJsSourceCode(cdo);
-                console.log("filename", fileName)
-                console.log("sc", sc)
-                console.log("js", js)
+                //console.log("filename", fileName); console.log("cdo", cdo); console.log("sc", sc); console.log("js", js);
                 expect(sc).to.eql(js);
             }).then(done,done);
         });
     });
 });
 
-describe("jsToHtml instance check", function(){
+describe.skip("jsToHtml instance check", function(){
     it("must generate js source code from comment nodes", function(){
         var tag = jsToHtml.direct({textNode:'El texto'});
         expect(tag instanceof jsToHtml.HtmlTextNode).to.eql(true);
