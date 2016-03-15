@@ -76,7 +76,7 @@ describe("jsFromHtml from fixtures", function(){
     });
 });
 
-describe.skip("jsToHtml instance check", function(){
+describe("jsToHtml instance check", function(){
     it("must generate js source code from comment nodes", function(){
         var tag = jsToHtml.direct({textNode:'El texto'});
         expect(tag instanceof jsToHtml.HtmlTextNode).to.eql(true);
