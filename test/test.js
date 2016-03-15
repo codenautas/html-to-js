@@ -54,47 +54,6 @@ describe("jsFromHtml simple tests", function(){
     });
 });
 
-function getE(elem) {
-    return '['+(elem.name ? elem.name : '?')+']'+(elem.type ?" type:"+elem.type:"")+(elem.data ? " data:"+elem.data : '')
-               +(elem.attribs && elem.attribs.id?" id:"+elem.attribs.id:"")
-               +(elem.attribs && elem.attribs.src?" src:"+elem.attribs.src:"")
-               +(elem.attribs && elem.attribs.href?" href:"+elem.attribs.href:"")
-               +(elem.prev?" prev:"+(elem.prev.name ? elem.prev.name : elem.prev.data):"")
-               +(elem.next?" next:"+(elem.next.name ? elem.next.name : elem.next.data):"")
-               +(elem.parent?" [parent:"+(elem.parent.name ? elem.parent.name : elem.parent.data)+']':"")
-               +(elem.children && elem.children.length?"":" [NIETO]");
-}
-
-var space = '   ';
-var ctr = 0;
-function prnDE(elem, pad) {
-    ++ctr;
-    //console.log("prnDE:",elem);
-    console.log(ctr, pad+getE(elem));
-    if(elem.attribs) {
-        for(var a in elem.attribs) {
-            console.log(pad+space+space+"attrib:"+a+"='"+elem.attribs[a]+'"');
-        }
-    }
-    if(elem.children) {
-        var i=0;
-        for(var c in elem.children) {
-            ++i;
-            var child = elem.children[c];
-            console.log(pad+space+"child", i, "of", elem.children.length, "from", elem.name ? elem.name : '?'/*, child.name ? child.name : child.type*/);
-            pad += space;            
-            prnDE(child, pad);
-            pad = pad.substring(0, pad.length-space.length);
-        }
-    }
-}
-
-function prnDOM(dom) {
-    ctr = 0;
-    for(var d=0; d<dom.length; ++d) { prnDE(dom[d], ''); }
-    console.log("# of tags:", ctr);
-}
-
 describe("jsFromHtml from fixtures", function(){
     ['fixture1.js','fixture1b.js','fixture2.js','fixture1c.js'].forEach(function(fileName){
         it("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
