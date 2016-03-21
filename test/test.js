@@ -71,8 +71,8 @@ describe("jsFromHtml from fixtures", function(){
                 var sc=jsFromHtml.toJsSourceCode(cdo);
                 if(fileName==='fixture2.js') {
                     console.log("Skipping "+fileName);
-                    // console.log("jsFromHtml.toJsSourceCode"); console.log(sc);
-                    // console.log("expected"); console.log(js);
+                    //console.log("jsFromHtml.toJsSourceCode"); console.log(sc);
+                    //console.log("expected"); console.log(js);
                 } else {
                     expect(sc).to.eql(js);
                 }
