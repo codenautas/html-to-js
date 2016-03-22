@@ -15,18 +15,14 @@ html.html([
         html.div({id:"bool2", "tedede-option-group": "bool2"},[
             html.input({
                 id: "bool2-true",
+                "class": "numeric",
                 name: "bool2",
                 type: "radio",
                 value: "true",
             }),
             html.label({id: "label-bool2-true", "for": "bool2-true"}, "Sí"),
             html.br(),
-            html.input({
-                id: "bool2-false",
-                name: "bool2",
-                type: "radio",
-                value: "false",
-            }),
+            html.input({id: "bool2-false", name: "bool2", type: "radio", value: "false"}),
             html.label({id: "label-bool2-false", "for": "bool2-false"}, "No"),
         ]),
         html.input({id: "txtEmiter", type: "text"}),
