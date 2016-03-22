@@ -63,19 +63,9 @@ describe("jsFromHtml from fixtures", function(){
                 //var htmlText = eval(js);
                 //console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
-                // if(fileName==='fixture2.js') {
-                    // console.dir(cdo, {depth:1});
-                    // console.dir(arrayList, {depth:1});
-                // }
                 expect(cdo).to.eql(arrayList);
                 var sc=jsFromHtml.toJsSourceCode(cdo);
-                if(fileName==='fixture2.js') {
-                    console.log("Skipping "+fileName);
-                    //console.log("jsFromHtml.toJsSourceCode"); console.log(sc);
-                    //console.log("expected"); console.log(js);
-                } else {
                     expect(sc).to.eql(js);
-                }
             }).then(done,done);
         });
     });

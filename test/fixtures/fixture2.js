@@ -10,9 +10,9 @@ html.html([
         ]),
         html.div([
             html.label({"for": "text1"}, "text with empty"),
-            html.input({id:"text1", accesskey: "t", type: "text"}),
+            html.input({id: "text1", accesskey: "t", type: "text"}),
         ]),
-        html.div({id:"bool2", "tedede-option-group": "bool2"},[
+        html.div({id: "bool2", "tedede-option-group": "bool2"}, [
             html.input({
                 id: "bool2-true",
                 "class": "numeric",
