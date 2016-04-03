@@ -1,3 +1,7 @@
+"use strict";
+
+var Path = require('path');
+
 var expect = require("expect.js");
 var fs = require("fs-promise");
 
@@ -54,18 +58,28 @@ describe("jsFromHtml simple tests", function(){
     });
 });
 
+// var error_sintaxis = require('./fixtures/ejemplo.js');
+
 describe("jsFromHtml from fixtures", function(){
-    ['fixture1.js','fixture1b.js','fixture2.js','fixture1c.js'].forEach(function(fileName){
+    ['fixture1.js','fixture1b.js','fixture2.js','fixture1c.js','ejemplo.html'].forEach(function(fileName){
         it("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
-            fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'}).then(function(js){
-                var arrayList = eval("["+js+"]");
-                var htmlText = jsToHtml.arrayToHtmlText(arrayList);
+            var arrayList;
+            var js;
+            fs.readFile('test/fixtures/'+fileName.replace(/\.[^.]+$/,'.js'),{encoding:'utf8'}).then(function(content){
+                js = content;
+                arrayList = eval("["+js+"]");
+                if(Path.extname(fileName)=='.js'){
+                    return jsToHtml.arrayToHtmlText(arrayList);
+                }else{
+                    return fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'});
+                }
+            }).then(function(htmlText){
                 //var htmlText = eval(js);
                 //console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
                 expect(cdo).to.eql(arrayList);
                 var sc=jsFromHtml.toJsSourceCode(cdo);
-                    expect(sc).to.eql(js);
+                expect(sc).to.eql(js);
             }).then(done,done);
         });
     });
