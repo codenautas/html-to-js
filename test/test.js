@@ -58,14 +58,29 @@ describe("jsFromHtml simple tests", function(){
     });
 });
 
-// var error_sintaxis = require('./fixtures/ejemplo.js');
+// var error_sintaxis = require('./fixtures/pseudo-pp.js');
 
 describe("jsFromHtml from fixtures", function(){
-    ['fixture1.js','fixture1b.js','fixture2.js','fixture1c.js','ejemplo.html'].forEach(function(fileName){
-        it("must parse and create the same JS thats create the HTML text for: "+fileName, function(done){
+    [   
+        {fileName: 'fixture1.js'   , },
+        {fileName: 'fixture1b.js'  , },
+        {fileName: 'fixture2.js'   , },
+        {fileName: 'fixture1c.js'  , },
+        {fileName: 'ejemplo.html'  , },
+        {fileName: 'pseudo-pp.html', skip: '#5'},
+        {fileName: 'pseudo-pp.html', skip: '#6', jsName: 'pseudo-pp-es6.js', versionES:6},
+    ].forEach(function(fixtureInfo){
+        var fileName = fixtureInfo.fileName;
+        var mustName="must parse and create the same JS thats create the HTML text for: "+fileName+" for issue "+fixtureInfo.skip;
+        if(fixtureInfo.skip){
+            it.skip(mustName);
+            return true;
+        }
+        it(mustName, function(done){
             var arrayList;
             var js;
-            fs.readFile('test/fixtures/'+fileName.replace(/\.[^.]+$/,'.js'),{encoding:'utf8'}).then(function(content){
+            var jsName=fixtureInfo.jsName||fileName.replace(/\.[^.]+$/,'.js');
+            fs.readFile('test/fixtures/'+jsName,{encoding:'utf8'}).then(function(content){
                 js = content;
                 arrayList = eval("["+js+"]");
                 if(Path.extname(fileName)=='.js'){
@@ -77,9 +92,9 @@ describe("jsFromHtml from fixtures", function(){
                 //var htmlText = eval(js);
                 //console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
-                expect(cdo).to.eql(arrayList);
-                var sc=jsFromHtml.toJsSourceCode(cdo);
+                var sc=jsFromHtml.toJsSourceCode(cdo, {versionES: fixtureInfo.versionES});
                 expect(sc).to.eql(js);
+                expect(cdo).to.eql(arrayList);
             }).then(done,done);
         });
     });
