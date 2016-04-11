@@ -67,8 +67,9 @@ describe("jsFromHtml from fixtures", function(){
         {fileName: 'fixture2.js'   , },
         {fileName: 'fixture1c.js'  , },
         {fileName: 'ejemplo.html'  , },
-        {fileName: 'pseudo-pp.html', skip: '#5'},
-        {fileName: 'pseudo-pp.html', skip: '#6', jsName: 'pseudo-pp-es6.js', versionES:6},
+        {fileName: 'pseudo-pp.html', skip: '#6'},
+        {fileName: 'pseudo-pp.html', skip: '#7', jsName: 'pseudo-pp-es6.js', versionES:6},
+        {fileName: 'from-pp.html'  , skip: '#8', fromPretty:true},
     ].forEach(function(fixtureInfo){
         var fileName = fixtureInfo.fileName;
         var mustName="must parse and create the same JS thats create the HTML text for: "+fileName+" for issue "+fixtureInfo.skip;
@@ -92,7 +93,7 @@ describe("jsFromHtml from fixtures", function(){
                 //var htmlText = eval(js);
                 //console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
-                var sc=jsFromHtml.toJsSourceCode(cdo, {versionES: fixtureInfo.versionES});
+                var sc=jsFromHtml.toJsSourceCode(cdo, {versionES: fixtureInfo.versionES, fromPretty: fixtureInfo.fromPretty});
                 expect(sc).to.eql(js);
                 expect(cdo).to.eql(arrayList);
             }).then(done,done);

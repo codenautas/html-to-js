@@ -6,12 +6,12 @@ html.body([
         ".\n"+
         "     Y otras cosas ",
         html.i("así"),
-        ":\n"
+        ":\n",
     ]),
     html.pre(
         "\n"+
         "Array.prototype.forEach.call(document.body.childNodes, function(node){\n"+
         "    console.log(JSON.stringify(node.textContent));\n"+
         "});\n"
-    )
+    ),
 ]),
