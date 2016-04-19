@@ -72,7 +72,7 @@ describe("jsFromHtml from fixtures", function(){
         {fileName: 'from-pp.html'  , skip: '#8', fromPretty:true},
     ].forEach(function(fixtureInfo){
         var fileName = fixtureInfo.fileName;
-        var mustName="must parse and create the same JS thats create the HTML text for: "+fileName+" for issue "+fixtureInfo.skip;
+        var mustName="must parse and create the same JS thats create the HTML text for: "+fileName+(fixtureInfo.skip ? " for issue "+fixtureInfo.skip : '');
         if(fixtureInfo.skip){
             it.skip(mustName);
             return true;
@@ -81,6 +81,7 @@ describe("jsFromHtml from fixtures", function(){
             var arrayList;
             var js;
             var jsName=fixtureInfo.jsName||fileName.replace(/\.[^.]+$/,'.js');
+            //console.log("jsName", jsName)
             fs.readFile('test/fixtures/'+jsName,{encoding:'utf8'}).then(function(content){
                 js = content;
                 arrayList = eval("["+js+"]");
@@ -90,8 +91,11 @@ describe("jsFromHtml from fixtures", function(){
                     return fs.readFile('test/fixtures/'+fileName,{encoding:'utf8'});
                 }
             }).then(function(htmlText){
-                //var htmlText = eval(js);
+                //console.log("fileName", fileName);
                 //console.log("htmlText", htmlText);
+                //console.log("js", js);
+                // var htmlText = eval(js);
+                // console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
                 var sc=jsFromHtml.toJsSourceCode(cdo, {versionES: fixtureInfo.versionES, fromPretty: fixtureInfo.fromPretty});
                 expect(sc).to.eql(js);
