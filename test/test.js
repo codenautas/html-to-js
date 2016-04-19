@@ -56,6 +56,10 @@ describe("jsFromHtml simple tests", function(){
             'html._comment(" the comment "),\n'
         )
     });
+    it("should return original object if in canonical form", function(){
+        var original=html.div({id:"elid"}, "div content");
+        expect(jsFromHtml.parse(original)).to.eql(original);
+    });
 });
 
 // var error_sintaxis = require('./fixtures/pseudo-pp.js');
