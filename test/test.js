@@ -60,6 +60,10 @@ describe("jsFromHtml simple tests", function(){
         var original=html.div({id:"elid"}, "div content");
         expect(jsFromHtml.parse(original)).to.eql(original);
     });
+    it("should return a text if string is provided", function(){
+        var sourceCode=jsFromHtml.toJsSourceCode("just a text");
+        expect(sourceCode).to.eql('"just a text",\n');
+    });
 });
 
 // var error_sintaxis = require('./fixtures/pseudo-pp.js');
