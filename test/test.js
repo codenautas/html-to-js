@@ -55,9 +55,16 @@ describe("jsFromHtml simple tests", function(){
         expect(jsFromHtml.parse(original)).to.eql(original);
     });
     it.skip("must generate js source code from nested tags", function(){
+        var parsed = jsFromHtml.parse("<div><!-- the comment --></div>");
+        //console.log(direct(parsed).toHtmlText({pretty:true}))
         var sourceCode=jsFromHtml.toJsSourceCode(jsFromHtml.parse("<div><!-- the comment --></div>"));
+        var t = html.div([html._comment(" the comment ")]);
+        console.log("t", JSON.stringify(t.toHtmlText({pretty:true})));
+        console.log("sourceCode", JSON.stringify(sourceCode));
         expect(sourceCode).to.eql(
-            'html._comment(" the comment "),\n'
+            'html.div([\n'+
+            '    html._comment(" the comment "),\n'+
+            ']),\n'
         )
     });
 });
@@ -71,7 +78,7 @@ describe("jsFromHtml from fixtures", function(){
         {fileName: 'fixture2.js'   , },
         {fileName: 'fixture1c.js'  , },
         {fileName: 'ejemplo.html'  , },
-        {fileName: 'pseudo-pp.html'/*, skip: '#6'*/},
+        {fileName: 'pseudo-pp.html'},
         {fileName: 'pseudo-pp.html', skip: '#7', jsName: 'pseudo-pp-es6.js', versionES:6},
         {fileName: 'from-pp.html'  , skip: '#8', fromPretty:true},
     ].forEach(function(fixtureInfo){
