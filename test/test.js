@@ -71,7 +71,7 @@ describe("jsFromHtml from fixtures", function(){
         {fileName: 'fixture2.js'   , },
         {fileName: 'fixture1c.js'  , },
         {fileName: 'ejemplo.html'  , },
-        {fileName: 'pseudo-pp.html', skip: '#6'},
+        {fileName: 'pseudo-pp.html'/*, skip: '#6'*/},
         {fileName: 'pseudo-pp.html', skip: '#7', jsName: 'pseudo-pp-es6.js', versionES:6},
         {fileName: 'from-pp.html'  , skip: '#8', fromPretty:true},
     ].forEach(function(fixtureInfo){
@@ -87,6 +87,7 @@ describe("jsFromHtml from fixtures", function(){
             var jsName=fixtureInfo.jsName||fileName.replace(/\.[^.]+$/,'.js');
             //console.log("jsName", jsName)
             fs.readFile('test/fixtures/'+jsName,{encoding:'utf8'}).then(function(content){
+                //console.log("content", JSON.stringify(content));
                 js = content;
                 arrayList = eval("["+js+"]");
                 if(Path.extname(fileName)=='.js'){
@@ -97,12 +98,17 @@ describe("jsFromHtml from fixtures", function(){
             }).then(function(htmlText){
                 //console.log("fileName", fileName);
                 //console.log("htmlText", htmlText);
+                //console.log("htmlText", JSON.stringify(htmlText));
                 //console.log("js", js);
                 // var htmlText = eval(js);
                 // console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
                 var sc=jsFromHtml.toJsSourceCode(cdo, {versionES: fixtureInfo.versionES, fromPretty: fixtureInfo.fromPretty});
+                //console.log("sc", JSON.stringify(sc));
+                //console.log("js", JSON.stringify(js));
                 expect(sc).to.eql(js);
+                //console.log("      cdo", JSON.stringify(cdo));
+                //console.log("arrayList", JSON.stringify(arrayList));
                 expect(cdo).to.eql(arrayList);
             }).then(done,done);
         });
