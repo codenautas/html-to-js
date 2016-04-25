@@ -54,13 +54,8 @@ describe("jsFromHtml simple tests", function(){
         var original=html.div({id:"elid"}, "div content");
         expect(jsFromHtml.parse(original)).to.eql(original);
     });
-    it.skip("must generate js source code from nested tags", function(){
-        var parsed = jsFromHtml.parse("<div><!-- the comment --></div>");
-        //console.log(direct(parsed).toHtmlText({pretty:true}))
+    it("must generate js source code from nested tags", function(){
         var sourceCode=jsFromHtml.toJsSourceCode(jsFromHtml.parse("<div><!-- the comment --></div>"));
-        var t = html.div([html._comment(" the comment ")]);
-        console.log("t", JSON.stringify(t.toHtmlText({pretty:true})));
-        console.log("sourceCode", JSON.stringify(sourceCode));
         expect(sourceCode).to.eql(
             'html.div([\n'+
             '    html._comment(" the comment "),\n'+
