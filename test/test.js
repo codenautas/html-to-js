@@ -44,12 +44,14 @@ describe("jsFromHtml simple tests", function(){
             '"simple & short",\n'
         )
     });
-    it("must generate js source code from text nodes (array)", function(){
+    /*
+    it.skip("must generate js source code from text nodes (array)", function(){
         var sourceCode=jsFromHtml.toJsSourceCode(["simple & short"]);
         expect(sourceCode).to.eql(
             '"simple & short",\n'
         )
     });
+    */
     it("must generate js source code from comment nodes", function(){
         var sourceCode=jsFromHtml.toJsSourceCode(jsFromHtml.parse("<!-- the comment -->"));
         expect(sourceCode).to.eql(
@@ -60,10 +62,12 @@ describe("jsFromHtml simple tests", function(){
         var original=html.div({id:"elid"}, "div content");
         expect(jsFromHtml.parse(original)).to.eql(original);
     });
-    it("should return a text if string is provided", function(){
+    /*
+    it.skip("should return a text if string is provided", function(){
         var sourceCode=jsFromHtml.toJsSourceCode("just a text");
         expect(sourceCode).to.eql('"just a text",\n');
     });
+    */
 });
 
 // var error_sintaxis = require('./fixtures/pseudo-pp.js');
