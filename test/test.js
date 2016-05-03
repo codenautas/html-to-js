@@ -75,7 +75,7 @@ describe("jsFromHtml from fixtures", function(){
         {fileName: 'ejemplo.html'  , },
         {fileName: 'pseudo-pp.html'},
         {fileName: 'pseudo-pp.html', skip: '#7', jsName: 'pseudo-pp-es6.js', versionES:6},
-        {fileName: 'from-pp.html'  , skip: '#8', pretty:true},
+        {fileName: 'from-pp.html'  , skip: '#8', fromPretty:true},
     ].forEach(function(fixtureInfo){
         var fileName = fixtureInfo.fileName;
         var mustName="must parse and create the same JS thats create the HTML text for: "+fileName+(fixtureInfo.skip ? " for issue "+fixtureInfo.skip : '');
@@ -105,7 +105,7 @@ describe("jsFromHtml from fixtures", function(){
                 // var htmlText = eval(js);
                 // console.log("htmlText", htmlText);
                 var cdo=jsFromHtml.parse(htmlText);
-                var sc=jsFromHtml.toJsSourceCode(cdo, {versionES: fixtureInfo.versionES, pretty: fixtureInfo.pretty});
+                var sc=jsFromHtml.toJsSourceCode(cdo, {versionES: fixtureInfo.versionES, fromPretty: fixtureInfo.fromPretty});
                 //console.log("sc", JSON.stringify(sc));
                 //console.log("js", JSON.stringify(js));
                 expect(sc).to.eql(js);
