@@ -4,7 +4,7 @@ var Path = require('path');
 
 var expect = require("expect.js");
 var fs = require("fs-promise");
-
+var semver = require('semver');
 var jsFromHtml = require("../lib/js-from-html.js");
 var jsToHtml = require("js-to-html");
 var html = jsToHtml.html;
@@ -74,12 +74,14 @@ describe("jsFromHtml from fixtures", function(){
         {fileName: 'fixture1c.js'  , },
         {fileName: 'ejemplo.html'  , },
         {fileName: 'pseudo-pp.html'},
-        {fileName: 'pseudo-pp.html', jsName: 'pseudo-pp-es6.js', versionES:6},
+        {fileName: 'pseudo-pp.html', jsName: 'pseudo-pp-es6.js', versionES:6, minVersion:'4.4.2'},
         {fileName: 'from-pp.html'  , skip: '#8', fromPretty:true},
     ].forEach(function(fixtureInfo){
         var fileName = fixtureInfo.fileName;
+        var minVersion = fixtureInfo.minVersion || '0.12.7';
         var mustName="must parse and create the same JS thats create the HTML text for: "+fileName+(fixtureInfo.skip ? " for issue "+fixtureInfo.skip : '');
-        if(fixtureInfo.skip){
+        console.log("VERSION: ", process.versions.node);
+        if(fixtureInfo.skip || semver.lt(process.versions.node,minVersion)){
             it.skip(mustName);
             return true;
         }
