@@ -74,7 +74,7 @@ describe("jsFromHtml from fixtures", function(){
         {fileName: 'fixture1c.js'  , },
         {fileName: 'ejemplo.html'  , },
         {fileName: 'pseudo-pp.html'},
-        {fileName: 'pseudo-pp.html', skip: '#7', jsName: 'pseudo-pp-es6.js', versionES:6},
+        {fileName: 'pseudo-pp.html', jsName: 'pseudo-pp-es6.js', versionES:6},
         {fileName: 'from-pp.html'  , skip: '#8', fromPretty:true},
     ].forEach(function(fixtureInfo){
         var fileName = fixtureInfo.fileName;

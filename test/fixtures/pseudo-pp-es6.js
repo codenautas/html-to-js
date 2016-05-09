@@ -9,8 +9,7 @@ html.body([
         `:
 `,
     ]),
-    html.pre(`
-Array.prototype.forEach.call(document.body.childNodes, function(node){
+    html.pre(`Array.prototype.forEach.call(document.body.childNodes, function(node){
     console.log(JSON.stringify(node.textContent));
 });
 `),
