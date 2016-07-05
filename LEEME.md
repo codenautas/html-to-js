@@ -1,5 +1,10 @@
 # js-from-html
+<!--lang:es-->
+Inverso de js-to-html
+<!--lang:en--]
 js-to-html reverse
+[!--lang:*-->
+
 
 <!--lang:es-->
 # Uso
